@@ -1,0 +1,30 @@
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo-db
+    environment:
+      MONGO_INITDB_DATABASE: mydb             # name of the initial database
+      MONGO_INITDB_ROOT_USERNAME: mongo       # root username
+      MONGO_INITDB_ROOT_PASSWORD: 123456      # root password
+    ports:
+      - "27017:27017"
+    volumes:
+        - mongo_data:/data/db
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-backend
+    container_name: scrap-app
+    depends_on:
+      - mongo
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/scrapDB
+      SPRING_DATA_MONGODB_USERNAME: mongo
+      SPRING_DATA_MONGODB_PASSWORD: 123456
+
+volumes:
+  mongo_data:
+
