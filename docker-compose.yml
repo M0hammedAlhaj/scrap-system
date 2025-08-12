@@ -3,13 +3,18 @@ services:
     image: mongo:6
     container_name: mongo-db
     environment:
-      MONGO_INITDB_DATABASE: mydb             # name of the initial database
-      MONGO_INITDB_ROOT_USERNAME: mongo       # root username
-      MONGO_INITDB_ROOT_PASSWORD: 123456      # root password
+      MONGO_INITDB_DATABASE: scrapDB             # match the DB name your app uses
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: 123456
     ports:
       - "27017:27017"
     volumes:
-        - mongo_data:/data/db
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--username", "mongo", "--password", "123456", "--authenticationDatabase", "admin", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   backend:
     build:
@@ -17,13 +22,12 @@ services:
       dockerfile: Dockerfile-backend
     container_name: scrap-app
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/scrapDB
-      SPRING_DATA_MONGODB_USERNAME: mongo
-      SPRING_DATA_MONGODB_PASSWORD: 123456
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:123456@mongo:27017/scrapDB?authSource=admin
 
 volumes:
   mongo_data:
