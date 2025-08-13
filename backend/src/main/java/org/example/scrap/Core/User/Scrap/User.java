@@ -5,9 +5,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
 public abstract class User extends BaseDocument {
-    public User(String role) {
-    }
-
     private String email;
 
     private String password;
