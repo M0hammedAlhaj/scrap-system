@@ -1,7 +1,7 @@
 package org.example.scrap.infrastructure.Security;
 
 import lombok.AllArgsConstructor;
-import org.example.scrap.Core.User.Auth.PasswordEncryptor;
+import org.example.scrap.Core.User.PasswordEncryptor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

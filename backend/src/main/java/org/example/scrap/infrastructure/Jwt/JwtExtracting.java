@@ -14,8 +14,11 @@ public class JwtExtracting {
     private final JwtGeneration generation;
 
     public Claims parseToken(String token) {
-        return Jwts.parser().verifyWith(generation.getSecretKey())
-                .build().parseSignedClaims(token).getPayload();
+        return Jwts.parserBuilder()
+                .setSigningKey(generation.getSecretKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private <T> T extractClaim(String token,

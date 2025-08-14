@@ -1,4 +1,4 @@
-package org.example.scrap.Core.User.Auth;
+package org.example.scrap.Core.User;
 
 public interface PasswordEncryptor {
     String hash(String rawPassword);

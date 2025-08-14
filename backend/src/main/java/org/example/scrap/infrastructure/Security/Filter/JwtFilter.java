@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Component
 @AllArgsConstructor
@@ -43,7 +44,7 @@ public class JwtFilter extends OncePerRequestFilter {
             }
 
             if (id != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserAuthentication userDetails = userRepository.findById(id)
+                UserAuthentication userDetails = userRepository.findById(UUID.fromString(id))
                         .map(UserAuthentication::new)
                         .orElseThrow(() -> new UserAuthenticationException("User doesn't have access"));
 
