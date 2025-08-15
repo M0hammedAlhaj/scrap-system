@@ -29,6 +29,18 @@ services:
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:123456@mongo:27017/scrapDB?authSource=admin
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: scrap-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+
 volumes:
   mongo_data:
 
