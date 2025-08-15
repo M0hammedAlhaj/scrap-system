@@ -7,7 +7,6 @@ import org.example.scrap.Core.User.User;
 import org.springframework.stereotype.Component;
 
 @Component
-
 public class BuyerFactory extends UserFactory {
     public BuyerFactory(PasswordEncryptor passwordEncryptor) {
         super(passwordEncryptor);

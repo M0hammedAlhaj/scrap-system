@@ -21,5 +21,6 @@ public abstract class UserFactory {
         user.setPhoneNumber(command.phoneNumber());
         user.setCity(command.city());
         user.setState(command.state());
+        user.setType(command.type().toString()); // Set the user type
     }
 }

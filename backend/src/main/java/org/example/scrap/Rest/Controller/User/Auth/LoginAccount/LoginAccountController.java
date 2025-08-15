@@ -29,7 +29,6 @@ import java.time.Instant;
 @RequestMapping("/api/v1/auth")
 @Tag(name = "Authentication", description = "APIs for user login and authentication")
 public class LoginAccountController {
-
     private final LoginAccountUseCase useCase;
     private final JwtGeneration jwtGeneration;
 

@@ -25,7 +25,7 @@ public class LoginAccountUseCase {
 
         User actualUser = userOptional.get();
 
-        if (!passwordEncryptor.matches(command.password(), actualUser.getPassword())) {
+        if (passwordEncryptor.matches(command.password(), actualUser.getPassword())) {
             return actualUser;
         }
 
