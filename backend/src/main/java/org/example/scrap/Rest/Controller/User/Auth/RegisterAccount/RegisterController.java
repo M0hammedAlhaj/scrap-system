@@ -43,9 +43,12 @@ public class RegisterController {
     public ResponseEntity<?> registerAccount(@RequestBody @Valid RegisterRequest request) {
         try {
             User user = registerUseCase.execute(new RegisterCommand(
+                    request.name(),
                     request.email(),
                     request.password(),
                     request.phoneNumber(),
+                    request.city(),
+                    request.state(),
                     request.userType()));
 
             StandardSuccessResponse<User> response = StandardSuccessResponse.<User>builder()
@@ -57,9 +60,9 @@ public class RegisterController {
         } catch (Exception ex) {
             StandardErrorResponse response = StandardErrorResponse.builder()
                     .timestamp(Instant.now())
-                    .status(HttpStatus.CONFLICT.value())
+                    .status(HttpStatus.NOT_FOUND.value())
                     .message(ex.getMessage())
-                    .code("EMAIL_ALREADY_USED")
+                    .code("NOT_FOUND")
                     .build();
 
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);

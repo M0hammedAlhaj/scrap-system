@@ -12,7 +12,7 @@ public class UserResources {
     private final String email;
 
     public UserResources(User user) {
-        this.id = user.getId().toString();
+        this.id = user.getId();
         this.email = user.getEmail();
         this.phoneNumber = user.getPhoneNumber();
     }

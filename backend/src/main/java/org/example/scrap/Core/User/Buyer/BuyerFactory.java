@@ -1,22 +1,22 @@
 package org.example.scrap.Core.User.Buyer;
 
-import lombok.AllArgsConstructor;
+import org.example.scrap.Application.User.Auth.RegisterCommand;
+import org.example.scrap.Core.User.Factory.UserFactory;
 import org.example.scrap.Core.User.PasswordEncryptor;
 import org.example.scrap.Core.User.User;
-import org.example.scrap.Core.User.Factory.UserFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
-public class BuyerFactory implements UserFactory {
-    private final PasswordEncryptor passwordEncryptor;
+
+public class BuyerFactory extends UserFactory {
+    public BuyerFactory(PasswordEncryptor passwordEncryptor) {
+        super(passwordEncryptor);
+    }
 
     @Override
-    public User createUser(String email, String password, String phoneNumber) {
+    public User createUser(RegisterCommand command) {
         Buyer buyer = new Buyer();
-        buyer.setEmail(email);
-        buyer.setPassword(passwordEncryptor.hash(password));
-        buyer.setPhoneNumber(phoneNumber);
+        setCommonField(buyer, command);
         return buyer;
     }
 }
