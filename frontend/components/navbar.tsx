@@ -44,13 +44,17 @@ export function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center space-x-4 space-x-reverse">
-            <Button variant="ghost" size="sm" className="font-body">
-              <User className="w-4 h-4 ml-2" />
-              تسجيل الدخول
-            </Button>
-            <Button size="sm" className="font-body font-semibold">
-              إنشاء حساب
-            </Button>
+            <Link href="/auth/login">
+              <Button variant="ghost" size="sm" className="font-body">
+                <User className="w-4 h-4 mr-2" />
+                تسجيل الدخول
+              </Button>
+            </Link>
+            <Link href="/auth/signup">
+              <Button size="sm" className="font-body font-semibold">
+                إنشاء حساب
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -93,13 +97,17 @@ export function Navbar() {
                 الإشعارات
               </Link>
               <div className="px-3 py-2 space-y-2">
-                <Button variant="ghost" size="sm" className="w-full justify-start font-body">
-                  <User className="w-4 h-4 ml-2" />
-                  تسجيل الدخول
-                </Button>
-                <Button size="sm" className="w-full font-body font-semibold">
-                  إنشاء حساب
-                </Button>
+                <Link href="/auth/login">
+                  <Button variant="ghost" size="sm" className="w-full justify-start font-body">
+                    <User className="w-4 h-4 mr-2" />
+                    تسجيل الدخول
+                  </Button>
+                </Link>
+                <Link href="/auth/signup">
+                  <Button size="sm" className="w-full font-body font-semibold">
+                    إنشاء حساب
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

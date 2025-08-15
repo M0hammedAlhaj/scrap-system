@@ -1,4 +1,4 @@
-import { RoleSelection } from "@/components/role-selection"
+import { Navbar } from "@/components/navbar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -8,6 +8,7 @@ import Link from "next/link"
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-background">
+      <Navbar />
       <section className="relative bg-gradient-to-br from-primary/5 to-secondary/10 py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
           <Badge variant="secondary" className="mb-6 text-sm font-medium">
@@ -288,11 +289,22 @@ export default function HomePage() {
       </section>
 
       <section className="py-16 px-4 bg-primary/5">
-        <div className="max-w-4xl mx-auto text-center mb-8">
+        <div className="max-w-4xl mx-auto text-center">
           <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4">مستعد للبدء؟</h2>
-          <p className="text-lg text-muted-foreground">انضم إلى منصتنا واختبر مستقبل تجارة الخردة في الأردن.</p>
+          <p className="text-lg text-muted-foreground mb-8">انضم إلى منصتنا واختبر مستقبل تجارة الخردة في الأردن.</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/auth/signup">
+              <Button size="lg" className="text-lg px-8">
+                إنشاء حساب جديد
+              </Button>
+            </Link>
+            <Link href="/auth/login">
+              <Button variant="outline" size="lg" className="text-lg px-8 bg-transparent">
+                تسجيل الدخول
+              </Button>
+            </Link>
+          </div>
         </div>
-        <RoleSelection />
       </section>
 
       <footer className="bg-muted py-12 px-4">
