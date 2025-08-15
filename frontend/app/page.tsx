@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/navbar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -8,7 +7,6 @@ import Link from "next/link"
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-background">
-      <Navbar />
       <section className="relative bg-gradient-to-br from-primary/5 to-secondary/10 py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
           <Badge variant="secondary" className="mb-6 text-sm font-medium">
