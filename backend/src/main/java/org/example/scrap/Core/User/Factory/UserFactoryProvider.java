@@ -1,7 +1,8 @@
-package org.example.scrap.Core.User;
+package org.example.scrap.Core.User.Factory;
 
 import org.example.scrap.Core.User.Buyer.BuyerFactory;
 import org.example.scrap.Core.User.Seller.SellerFactory;
+import org.example.scrap.Core.User.UserType;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

@@ -3,7 +3,7 @@ package org.example.scrap.Core.User.Seller;
 import lombok.AllArgsConstructor;
 import org.example.scrap.Core.User.PasswordEncryptor;
 import org.example.scrap.Core.User.User;
-import org.example.scrap.Core.User.UserFactory;
+import org.example.scrap.Core.User.Factory.UserFactory;
 import org.springframework.stereotype.Component;
 
 @Component

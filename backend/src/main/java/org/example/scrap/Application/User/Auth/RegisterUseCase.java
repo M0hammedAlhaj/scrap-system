@@ -2,20 +2,24 @@ package org.example.scrap.Application.User.Auth;
 
 import lombok.AllArgsConstructor;
 import org.example.scrap.Core.User.User;
-import org.example.scrap.Core.User.UserFactory;
-import org.example.scrap.Core.User.UserFactoryProvider;
+import org.example.scrap.Core.User.Factory.UserFactory;
+import org.example.scrap.Core.User.Factory.UserFactoryProvider;
 import org.example.scrap.Core.User.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class RegisterUserCase {
+public class RegisterUseCase {
     private final UserRepository userRepository;
     private final UserFactoryProvider userFactoryProvider;
 
     public User execute(RegisterCommand command) {
         UserFactory factory = userFactoryProvider.getFactory(command.type());
         User user = factory.createUser(command.email(), command.password(), command.phoneNumber());
+
+        if (userRepository.existsByEmail(command.email())) {
+            return user;
+        }
         userRepository.save(user);
         return user;
     }

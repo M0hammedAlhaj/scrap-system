@@ -8,16 +8,19 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.data.mongodb.core.aggregation.MergeOperation.UniqueMergeId.id;
-
 @Repository
 @AllArgsConstructor
 public class JpaUserRepository implements UserRepository {
     private final JpaUserMongodb repository;
 
     @Override
-    public Optional<User> findById(UUID id) {
+    public Optional<User> findById(String id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return repository.existsByEmail(email);
     }
 
     @Override

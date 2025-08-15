@@ -1,7 +1,6 @@
 package org.example.scrap.Core.User;
 
 import lombok.Data;
-import lombok.Getter;
 import org.example.scrap.Core.shared.BaseDocument;
 import org.springframework.data.mongodb.core.mapping.Document;
 

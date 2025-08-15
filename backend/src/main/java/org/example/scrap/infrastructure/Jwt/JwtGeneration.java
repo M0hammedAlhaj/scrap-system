@@ -26,12 +26,12 @@ public class JwtGeneration {
 
         return Jwts
                 .builder()
-                .subject(id.toString())
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis()
+                .setSubject(id.toString())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis()
                         + 60 * 60 * 60 * 1000))
                 .signWith(secretKey)
-                .issuer(email)
+                .setIssuer(email)
                 .compact();
     }
 }

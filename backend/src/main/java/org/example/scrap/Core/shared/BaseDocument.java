@@ -10,7 +10,7 @@ import java.util.UUID;
 @Getter
 public abstract class BaseDocument {
     @Id
-    private final UUID id;
+    private final String id;
 
     @Field(name = "created_at")
     private final LocalDateTime createdAt;
@@ -19,7 +19,7 @@ public abstract class BaseDocument {
     private LocalDateTime updatedAt;
 
     public BaseDocument() {
-        id = UUID.randomUUID();
+        id = UUID.randomUUID().toString();
         createdAt = LocalDateTime.now();
     }
 }
