@@ -1,5 +1,5 @@
-import { AuthWithRoleSelection } from "@/components/auth-with-role-selection"
+import { UnifiedAuthForm } from "@/components/unified-auth-form"
 
 export default function SignupPage() {
-  return <AuthWithRoleSelection defaultMode="signup" />
+  return <UnifiedAuthForm defaultMode="signup" />
 }
