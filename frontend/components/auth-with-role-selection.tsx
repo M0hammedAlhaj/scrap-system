@@ -12,6 +12,32 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 export type UserRole = "buyer" | "seller"
 export type AuthMode = "login" | "signup"
 
+// API Response Types
+interface LoginResponse {
+  data: {
+    user: {
+      id: string
+      email: string
+      name?: string
+      userType: string
+    }
+    token: string
+  }
+  message: string
+  status: number
+}
+
+interface RegisterResponse {
+  data: {
+    id: string
+    email: string
+    name?: string
+    userType: string
+  }
+  message: string
+  status: number
+}
+
 // Jordan Governorates
 const JORDAN_GOVERNORATES = [
   "عمّان",
@@ -31,6 +57,16 @@ const JORDAN_GOVERNORATES = [
 interface AuthWithRoleSelectionProps {
   defaultMode?: AuthMode
   onBack?: () => void
+}
+
+// Utility function to handle API errors
+const handleApiError = async (response: Response) => {
+  try {
+    const errorData = await response.json()
+    return errorData.message || "حدث خطأ في الخادم"
+  } catch {
+    return "حدث خطأ في الاتصال بالخادم"
+  }
 }
 
 export function AuthWithRoleSelection({ defaultMode = "signup", onBack }: AuthWithRoleSelectionProps) {
@@ -91,20 +127,54 @@ export function AuthWithRoleSelection({ defaultMode = "signup", onBack }: AuthWi
         })
 
         if (!response.ok) {
-          const errorData = await response.json()
-          throw new Error(errorData.message || "Registration failed")
+          const errorMessage = await handleApiError(response)
+          throw new Error(errorMessage)
         }
 
-        const data = await response.json()
+        const data: RegisterResponse = await response.json()
         console.log("Registration successful:", data)
         
         // TODO: Handle successful registration (e.g., redirect to login or dashboard)
         alert("تم إنشاء الحساب بنجاح!")
         
       } else {
-        // TODO: Implement login logic
-        console.log("Login form submitted:", { email: formData.email, password: formData.password, role: selectedRole })
-        alert("تسجيل الدخول قيد التطوير")
+        // Login logic
+        const response = await fetch("http://localhost:8080/api/v1/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        })
+
+        if (!response.ok) {
+          const errorMessage = await handleApiError(response)
+          throw new Error(errorMessage)
+        }
+
+        const data: LoginResponse = await response.json()
+        console.log("Login successful:", data)
+        
+        // Store the JWT token and user data
+        if (data.data?.token) {
+          localStorage.setItem("authToken", data.data.token)
+          localStorage.setItem("user", JSON.stringify(data.data.user))
+          
+          // Show success message
+          alert(`مرحباً بك! تم تسجيل الدخول بنجاح`)
+          
+          // TODO: Redirect to dashboard based on user role
+          // if (data.data.user.userType === "Buyer") {
+          //   window.location.href = "/buyer/dashboard"
+          // } else {
+          //   window.location.href = "/seller/dashboard"
+          // }
+        } else {
+          throw new Error("لم يتم استلام رمز المصادقة")
+        }
       }
     } catch (err: any) {
       setError(err.message || "حدث خطأ ما")
