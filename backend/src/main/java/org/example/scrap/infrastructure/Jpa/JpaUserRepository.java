@@ -6,7 +6,6 @@ import org.example.scrap.Core.User.UserRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 @AllArgsConstructor
@@ -21,6 +20,11 @@ public class JpaUserRepository implements UserRepository {
     @Override
     public boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return repository.findByEmail(email);
     }
 
     @Override

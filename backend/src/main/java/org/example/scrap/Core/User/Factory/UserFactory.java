@@ -1,7 +1,7 @@
 package org.example.scrap.Core.User.Factory;
 
 import lombok.AllArgsConstructor;
-import org.example.scrap.Application.User.Auth.RegisterCommand;
+import org.example.scrap.Application.User.Auth.RegisterAccount.RegisterCommand;
 import org.example.scrap.Core.User.PasswordEncryptor;
 import org.example.scrap.Core.User.User;
 import org.springframework.stereotype.Component;

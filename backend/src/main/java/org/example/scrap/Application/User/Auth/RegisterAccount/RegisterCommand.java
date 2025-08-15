@@ -1,4 +1,4 @@
-package org.example.scrap.Application.User.Auth;
+package org.example.scrap.Application.User.Auth.RegisterAccount;
 
 import org.example.scrap.Core.User.UserType;
 

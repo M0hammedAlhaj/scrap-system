@@ -8,4 +8,6 @@ public interface UserRepository extends BaseRepository<User> {
     Optional<User> findById(String id);
 
     boolean existsByEmail(String email);
+
+    Optional<User> findByEmail(String email);
 }
