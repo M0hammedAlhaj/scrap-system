@@ -1,6 +1,5 @@
 "use client"
 
-import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -82,14 +81,14 @@ export function UnifiedAuthForm({ defaultMode = "signup", onBack }: UnifiedAuthF
     userType: "Buyer" // Default to Buyer
   })
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
+  const handleInputChange = (e: any) => {
+    setFormData((prev: any) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault()
     setLoading(true)
     setError(null)

@@ -4,7 +4,6 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Updated color tokens to reflect Jordanian cultural theme with flag colors */
   --background: #ffffff;
   --foreground: #000000;
   --card: #f9f9f9;
@@ -38,12 +37,10 @@
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: #e1e1e1;
   --sidebar-ring: rgba(216, 30, 91, 0.5);
-  /* Updated font family variables for Arabic support */
   --font-cairo: "Cairo", sans-serif;
 }
 
 .dark {
-  /* Updated dark mode colors to maintain Jordanian cultural theme */
   --background: #1a1a1a;
   --foreground: #ffffff;
   --card: #2a2a2a;
