@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
-import java.util.UUID;
 
 @Component
 @Getter
@@ -22,14 +21,14 @@ public class JwtGeneration {
 
     }
 
-    public String generateToken(UUID id,String email) {
+    public String generateToken(String id, String email) {
 
         return Jwts
                 .builder()
-                .setSubject(id.toString())
+                .setSubject(id)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()
-                        + 60 * 60 * 60 * 1000))
+                                        + 60 * 60 * 60 * 1000))
                 .signWith(secretKey)
                 .setIssuer(email)
                 .compact();
