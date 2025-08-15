@@ -36,8 +36,6 @@ public class RegisterController {
                     content = @Content(schema = @Schema(implementation = UserResources.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request payload",
                     content = @Content),
-            @ApiResponse(responseCode = "409", description = "Email already in use",
-                    content = @Content)
     })
     @PostMapping("/register")
     public ResponseEntity<?> registerAccount(@RequestBody @Valid RegisterRequest request) {

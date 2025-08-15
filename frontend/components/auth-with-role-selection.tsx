@@ -7,10 +7,26 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { UserCheck, ShoppingCart, Gavel, ArrowLeft, UserPlus, LogIn } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export type UserRole = "buyer" | "seller"
 export type AuthMode = "login" | "signup"
+
+// Jordan Governorates
+const JORDAN_GOVERNORATES = [
+  "عمّان",
+  "إربد", 
+  "الزرقاء",
+  "البلقاء",
+  "مادبا",
+  "الكرك",
+  "الطفيلة",
+  "معان",
+  "العقبة",
+  "جرش",
+  "عجلون",
+  "المفرق"
+]
 
 interface AuthWithRoleSelectionProps {
   defaultMode?: AuthMode
@@ -21,12 +37,15 @@ export function AuthWithRoleSelection({ defaultMode = "signup", onBack }: AuthWi
   const [authMode, setAuthMode] = useState<AuthMode>(defaultMode)
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null)
   const [showAuth, setShowAuth] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     phone: "",
-    address: "",
+    city: "",
+    state: "",
   })
 
   const handleRoleSelect = (role: UserRole) => {
@@ -46,10 +65,52 @@ export function AuthWithRoleSelection({ defaultMode = "signup", onBack }: AuthWi
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Implement authentication logic
-    console.log("Auth form submitted:", { ...formData, role: selectedRole, authMode })
+    setLoading(true)
+    setError(null)
+
+    try {
+      if (authMode === "signup") {
+        const userType = selectedRole === "buyer" ? "Buyer" : "Seller"
+        
+        const response = await fetch("http://localhost:8080/api/v1/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            phoneNumber: formData.phone,
+            city: formData.city,
+            state: formData.state,
+            userType: userType,
+          }),
+        })
+
+        if (!response.ok) {
+          const errorData = await response.json()
+          throw new Error(errorData.message || "Registration failed")
+        }
+
+        const data = await response.json()
+        console.log("Registration successful:", data)
+        
+        // TODO: Handle successful registration (e.g., redirect to login or dashboard)
+        alert("تم إنشاء الحساب بنجاح!")
+        
+      } else {
+        // TODO: Implement login logic
+        console.log("Login form submitted:", { email: formData.email, password: formData.password, role: selectedRole })
+        alert("تسجيل الدخول قيد التطوير")
+      }
+    } catch (err: any) {
+      setError(err.message || "حدث خطأ ما")
+    } finally {
+      setLoading(false)
+    }
   }
 
   // If showing auth form
@@ -76,6 +137,12 @@ export function AuthWithRoleSelection({ defaultMode = "signup", onBack }: AuthWi
               </CardDescription>
             </CardHeader>
             <CardContent>
+              {error && (
+                <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+                  <p className="text-sm text-destructive">{error}</p>
+                </div>
+              )}
+              
               <form onSubmit={handleSubmit} className="space-y-4">
                 {authMode === "signup" && (
                   <div className="space-y-2">
@@ -88,6 +155,7 @@ export function AuthWithRoleSelection({ defaultMode = "signup", onBack }: AuthWi
                       onChange={handleInputChange}
                       required
                       placeholder="أدخل اسمك الكامل"
+                      className="placeholder:text-gray-400"
                     />
                   </div>
                 )}
@@ -102,6 +170,7 @@ export function AuthWithRoleSelection({ defaultMode = "signup", onBack }: AuthWi
                     onChange={handleInputChange}
                     required
                     placeholder="أدخل بريدك الإلكتروني"
+                    className="placeholder:text-gray-400"
                   />
                 </div>
 
@@ -115,6 +184,7 @@ export function AuthWithRoleSelection({ defaultMode = "signup", onBack }: AuthWi
                     onChange={handleInputChange}
                     required
                     placeholder="أدخل كلمة المرور"
+                    className="placeholder:text-gray-400"
                   />
                 </div>
 
@@ -130,26 +200,46 @@ export function AuthWithRoleSelection({ defaultMode = "signup", onBack }: AuthWi
                         onChange={handleInputChange}
                         required
                         placeholder="أدخل رقم هاتفك"
+                        className="placeholder:text-gray-400"
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="address">العنوان</Label>
-                      <Textarea
-                        id="address"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="أدخل عنوانك الكامل"
-                        rows={3}
-                      />
+                                        <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="state">المحافظة</Label>
+                        <Select value={formData.state} onValueChange={(value) => setFormData(prev => ({ ...prev, state: value }))}>
+                          <SelectTrigger className="placeholder:text-gray-400">
+                            <SelectValue placeholder="اختر المحافظة" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {JORDAN_GOVERNORATES.map((governorate) => (
+                              <SelectItem key={governorate} value={governorate}>
+                                {governorate}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="city">المنطقة</Label>
+                        <Input
+                          id="city"
+                          name="city"
+                          type="text"
+                          value={formData.city}
+                          onChange={handleInputChange}
+                          required
+                          placeholder="أدخل اسم المنطقة"
+                          className="placeholder:text-gray-400"
+                        />
+                      </div>
                     </div>
                   </>
                 )}
 
-                <Button type="submit" className="w-full" size="lg">
-                  {authMode === "login" ? "تسجيل الدخول" : "إنشاء الحساب"}
+                <Button type="submit" className="w-full" size="lg" disabled={loading}>
+                  {loading ? "جاري المعالجة..." : (authMode === "login" ? "تسجيل الدخول" : "إنشاء الحساب")}
                 </Button>
               </form>
 
