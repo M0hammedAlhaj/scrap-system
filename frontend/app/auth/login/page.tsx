@@ -1,5 +1,15 @@
-import { UnifiedAuthForm } from "@/components/unified-auth-form"
+"use client"
+
+import { AuthLoginForm } from "@/components/auth/auth-login-form"
+import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
-  return <UnifiedAuthForm defaultMode="login" />
+  const router = useRouter()
+  
+  return (
+    <AuthLoginForm 
+      onBack={() => router.push("/")}
+      onSwitchToSignup={() => router.push("/auth/signup")}
+    />
+  )
 }

@@ -7,14 +7,16 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
-COPY package.json pnpm-lock.yaml* ./
-RUN corepack enable pnpm && pnpm i --no-frozen-lockfile
+    # Install dependencies based on the preferred package manager
+    COPY package.json ./
+    # Install fresh dependencies without lockfile to ensure clean build
+    RUN corepack enable pnpm && pnpm install
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
+# Copy source files (excluding node_modules via .dockerignore)
 COPY . .
 
 # Next.js collects completely anonymous telemetry data about general usage.
